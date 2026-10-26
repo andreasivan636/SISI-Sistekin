@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Assistant - SISI</title>
+  <link rel="stylesheet" href="static/style/style.css" />
+</head>
+<body>
+
+  <!-- Background decorative circles -->
+  <div class="bg-wrapper">
+    <div class="circle circle--top-right-large"></div>
+    <div class="circle circle--top-right-small"></div>
+    <div class="circle circle--left-small"></div>
+    <div class="circle circle--left-tiny"></div>
+    <div class="circle circle--bottom-right-large"></div>
+    <div class="circle circle--bottom-right-small"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="navbar">
+    <div class="navbar__left">
+      <img src="static/assets/img/logo/5.png" alt="Logo Universitas 17 Agustus 1945 Surabaya" class="navbar__logo-univ" />
+
+      <div class="navbar__divider"></div>
+
+      <div class="navbar__univ-name">
+        <span>Universitas 17 Agustus 1945</span>
+        <span>Surabaya</span>
+      </div>
+    </div>
+
+    <div class="navbar__right">
+      <img src="static/assets/img/logo/3.png" alt="Logo Sistekin" class="navbar__logo-sistekin" />
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="content">
+
+    <section class="sisi">
+
+      <div class="sisi__image-wrapper">
+
+        <video
+            id="sisiVideo"
+            class="sisi__image"
+            autoplay
+            muted
+            playsinline
+        >
+            <source
+                src="static/assets/vid/character_transparent.webm"
+                type="video/webm"
+            >
+        </video>
+
+        <button
+            id="sisiHandButton"
+            class="sisi__hand-button"
+            type="button"
+            aria-label="Mulai chat dengan SISI"
+        ></button>
+
+      </div>
+
+      <div class="sisi__content">
+        <h1 class="sisi__title">
+          Meet with
+          <span class="sisi__title-highlight">SISI</span>
+        </h1>
+
+        <div class="sisi__bubble">
+          <p>Punya pertanyaan tentang SISTEKIN?</p>
+          <p>Tanyakan apa saja pada SISI</p>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="static/script/script.js"></script>
+
+</body>
+</html>

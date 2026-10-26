@@ -1,0 +1,306 @@
+.bg-wrapper {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    #1aa3a3 0%,
+    #0d8888 30%,
+    #066b6b 60%,
+    #044f4f 100%
+  );
+  overflow: hidden;
+  z-index: 0;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===========================
+   Decorative Circles
+=========================== */
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(3px);
+}
+
+.circle--top-right-large {
+  width: 160px;
+  height: 160px;
+  top: -40px;
+  right: 200px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.circle--top-right-small {
+  width: 70px;
+  height: 70px;
+  top: 120px;
+  right: 290px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.circle--left-small {
+  width: 63px;
+  height: 63px;
+  top: 200px;
+  left: 100px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.circle--left-tiny {
+  width: 28px;
+  height: 28px;
+  top: 255px;
+  left: 150px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.circle--bottom-right-large {
+  width: 190px;
+  height: 190px;
+  bottom: -50px;
+  right: 100px;
+  background: rgba(255, 255, 255, 0.43);
+}
+
+.circle--bottom-right-small {
+  width: 80px;
+  height: 80px;
+  bottom: 145px;
+  right: 120px;
+  background: rgba(255, 255, 255, 0.43);
+}
+
+/* ===========================
+   Navbar
+=========================== */
+.navbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px 12px 40px;
+}
+
+.back_arrow {
+  width: 12px;
+  height: 12px;
+  border-left: 4px solid white;
+  border-bottom: 4px solid white;
+  transform: rotate(45deg);
+}
+
+.navbar__left {
+  display: flex;
+  align-items: center;
+  padding-bottom: 12px;
+}
+
+.navbar__divider {
+  width: 2px;
+  height: 40px;
+  background: white;
+}
+
+.navbar__logo-sistekin {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5));
+}
+
+/* ===========================
+   Content & Layout
+=========================== */
+.content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.chat-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+/* ===========================
+   State Containers
+=========================== */
+.state-default,
+.state-recording {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+.state-result {
+  position: relative;
+}
+
+.state-result .sisi__bubble {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+/* ===========================
+   SISI Character
+=========================== */
+.sisi__image-wrapper {
+  max-width: 1000px;
+  height: 740px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+          mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+} 
+
+.sisi__image-wrapper-2 {
+  max-width: 980px;
+  height: 640px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+          mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+  margin-top: -60px;
+  margin-left: -150px;
+}
+
+.sisi__image {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: translateY(-30px);
+}
+
+.sisi__image_2 {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: translateY(-30px);
+}
+
+/* ===========================
+   Chat Box & Mic Button (State 1)
+=========================== */
+.chat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  color: white;
+}
+
+.sisi__bubble {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 150px;
+  padding: 0;
+  background: #066b6b;
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.mic_icon {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  align-self: center;
+}
+
+/* ===========================
+   Result Box (State 3)
+=========================== */
+.chat-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.sisi__answer-bubble {
+  width: 100%;
+  max-width: 450px;
+  padding: 40px 24px;
+  background: #ffffff34;
+  border-radius: 15px 15px 15px 0px;
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: -50px;
+  left: 380px;
+}
+
+.sisi__answer-text {
+  margin: 0;
+  color: white;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* ===========================
+   Mic Besar (State 2 - Recording)
+=========================== */
+.mic__bubble--large {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 260px;
+  height: 260px;
+  background: #066b6b;
+  border-radius: 50%;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.mic_icon--large {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+}
+
+.recording-text {
+  margin-top: 10px;
+  font-size: 28px;
+  color: white;
+  text-align: center;
+}

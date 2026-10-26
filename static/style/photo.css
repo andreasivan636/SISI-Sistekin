@@ -1,0 +1,321 @@
+/* ===========================
+   Reset & Base
+=========================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* ===========================
+   Background Wrapper
+=========================== */
+.bg-wrapper {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    #009999 0%,
+    #007b7b 30%,
+    #005f5f 60%,
+    #004d4d 100%
+  );
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* ===========================
+   Decorative Circles
+=========================== */
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(3px);
+}
+
+.circle--top-right-large {
+  width: 160px;
+  height: 160px;
+  top: -40px;
+  right: -20px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.circle--top-right-small {
+  width: 70px;
+  height: 70px;
+  top: 120px;
+  right: 60px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.circle--left-small {
+  width: 63px;
+  height: 63px;
+  top: 200px;
+  left: -10px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.circle--left-tiny {
+  width: 28px;
+  height: 28px;
+  top: 255px;
+  left: 40px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.circle--bottom-right-large {
+  width: 190px;
+  height: 190px;
+  bottom: -50px;
+  right: -30px;
+  background: rgba(255, 255, 255, 0.43);
+}
+
+.circle--bottom-right-small {
+  width: 80px;
+  height: 80px;
+  bottom: 145px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.43);
+}
+
+/* ===========================
+   Main Content
+=========================== */
+.content {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+}
+
+/* ===========================
+   Navbar
+=========================== */
+.navbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+}
+
+.navbar__left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.navbar__logo-univ {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.navbar__divider {
+  width: 2px;
+  height: 40px;
+  background: white;
+}
+
+.navbar__univ-name {
+  display: flex;
+  flex-direction: column;
+
+  color: white;
+  font-size: 18px;
+  font-weight: 550;
+  line-height: 1.2;
+}
+
+.navbar__right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar__logo-sistekin {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5));
+}
+
+/* ===========================
+   SISI Section
+=========================== */
+.sisi {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 20px;
+  margin-left: -260px;
+}
+
+.sisi__image-wrapper {
+  width: 100%;
+  max-width: 750px;
+  height: 450px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 1;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+          mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+  margin-right: -100px;
+}
+
+.sisi__hand-button {
+  position: absolute;
+  top: 70px;
+  left: 475px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.sisi__hand-button:active {
+  background: rgba(255, 255, 255, 0.5);
+  filter: blur(20px);
+}
+
+.sisi__image {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: translateY(-50px);
+}
+
+.sisi__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-left: -180px;
+}
+
+.sisi__title {
+  font-size: clamp(30px, 5vw, 48px);
+  font-weight: 400;
+  color: white;
+}
+
+.sisi__title-highlight {
+  font-weight: 1000;
+}
+
+.sisi__bubble {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px 24px;
+  background: #007b7b;
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 80px 200px 800px 80px;
+  color: white;
+}
+
+.sisi__bubble p {
+  font-size: clamp(16px, 2.5vw, 25px);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* =================================
+   Responsive Layout
+================================= */
+
+@media (max-width: 1200px) {
+
+  .sisi {
+    padding: 0 30px;
+  }
+
+  .sisi__content {
+    margin-left: -120px;
+  }
+
+}
+
+@media (max-width: 992px) {
+
+  .sisi__image-wrapper {
+    max-width: 600px;
+  }
+
+  .sisi__content {
+    margin-left: -80px;
+  }
+
+  .sisi__bubble {
+    max-width: 420px;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .content {
+    padding: 20px;
+  }
+
+  .sisi {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .sisi__content {
+    margin-left: 0;
+    align-items: center;
+    width: 100%;
+  }
+
+  .sisi__image-wrapper {
+    width: 100%;
+    max-width: 900px;
+    height: 100%;
+    max-height: 300px;
+    transform: translateY(-20px);
+  }
+
+  .sisi__bubble {
+    max-width: 100%;
+    padding: 16px 20px;
+  }
+
+  .sisi__hand-button {
+    transform: scale(0.8);
+    transform-origin: center;
+  }
+
+  .navbar__logo-univ,
+  .navbar__logo-sistekin {
+    width: 60px;
+    height: 60px;
+  }
+
+  .navbar__univ-name {
+    font-size: 14px;
+  }
+
+}

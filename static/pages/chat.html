@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with SISI</title>
+    <link rel="stylesheet" href="../style/chat.css">
+</head>
+
+<body>
+    <!-- Background Bawaan -->
+    <div class="bg-wrapper">
+        <div class="circle circle--top-right-large"></div>
+        <div class="circle circle--top-right-small"></div>
+        <div class="circle circle--left-small"></div>
+        <div class="circle circle--left-tiny"></div>
+        <div class="circle circle--bottom-right-large"></div>
+        <div class="circle circle--bottom-right-small"></div>
+    </div>
+
+    <!-- Header Navbar Bawaan -->
+    <header class="navbar" style="position: absolute; top:0; width: 100%; z-index: 10;">
+        <div class="back_arrow"></div>
+        <div class="navbar__right" style="padding-right: 20px;">
+            <img src="../assets/img/logo/3.png" alt="Logo Sistekin" class="navbar__logo-sistekin">
+        </div>
+    </header>
+
+    <!-- UI UTAMA SISI (ALA AI LISA) -->
+    <main class="content">
+        <section>
+            <!-- STATE 1: Karakter + Mic -->
+            <div class="state-default">
+                <div class="sisi__image-wrapper">
+                    <img src="../assets/img/char/SISI-2.png" alt="Karakter SISI" class="sisi__image">
+                </div>
+                <div class="chat-box">
+                    <a class="sisi__bubble" onclick="startRecording()" aria-label="Mulai Merekam">
+                        <img src="../assets/icons/mic.png" alt="Mic Icon" class="mic_icon">
+                    </a>
+                </div>
+            </div>
+            
+            <!-- STATE 2: Recording -->
+            <div class="state-recording hidden">
+                <a class="mic__bubble--large" onclick="stopRecording()" aria-label="Berhenti Merekam">
+                    <img src="../assets/icons/mic.png" alt="Tombol Mikrofon" class="mic_icon--large">
+                </a>
+                <p class="recording-text">Katakan sesuatu...</p>
+            </div>
+
+            <!-- STATE 3: Result -->
+            <div class="state-result hidden">
+                <div class="chat-row">
+                    <div class="sisi__image-wrapper-2">
+                        <img src="../assets/img/char/SISI-2.png" alt="Karakter SISI" class="sisi__image_2">
+                    </div>
+
+                    <div class="sisi__answer-bubble">
+                        <p class="sisi__answer-text">Jawaban SISI akan muncul di sini...</p>
+                    </div>
+                </div>
+                <a class="sisi__bubble"
+image (required)
+A binary file, base64 data, or an image URL (up to 32 MB).
+name (optional)
+The name of the file; this is automatically detected if you upload a file using POST and multipart/form-data.
+expiration (optional)
+Enable this if you want uploads to be automatically deleted after a certain time (in seconds, 60-15552000).
+Example call
+
+curl --location --request POST "https://api.imgbb.com/1/upload?expiration=600&key=YOUR_CLIENT_API_KEY" --form "image=R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+
+Note: Always use POST when uploading local files. URL encoding may alter the base64 source due to encoded characters or simply because of the URL length limit when using GET.
+ onclick="startRecording()" aria-label="Rekam lagi">
+                    <img src="../assets/icons/mic.png" alt="Tombol Mikrofon" class="mic_icon">
+                </a>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- LOGIKA JAVASCRIPT DINAMIS -->
+    <script src="../script/record.js"></script>
+</body>
+</html>

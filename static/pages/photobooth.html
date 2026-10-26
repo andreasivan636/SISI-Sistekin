@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISI Photobooth</title>
+    <link rel="stylesheet" href="/static/style/photo.css">
+    
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: white; overflow-x: hidden; }
+        .main-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; width: 100%; min-height: 100vh; padding-bottom: 50px; }
+        .header { width: 100%; padding: 40px 20px 20px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 10px; }
+        .title-premium { font-size: 46px; margin: 0; font-weight: 900; text-transform: uppercase; letter-spacing: 5px; background: linear-gradient(135deg, #00ffcc, #ffffff, #066b6b, #00ffcc); background-size: 300% auto; color: transparent; -webkit-background-clip: text; background-clip: text; animation: shine 4s linear infinite; filter: drop-shadow(0px 4px 15px rgba(0, 255, 204, 0.4)); }
+        .subtitle { font-size: 16px; color: #b3d4d4; letter-spacing: 3px; margin-top: 5px; font-weight: 300; text-transform: uppercase; }
+        @keyframes shine { to { background-position: 300% center; } }
+        
+        .kamera-container { position: relative; width: 640px; max-width: 90%; border-radius: 25px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.2); background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); }
+        video { width: 100%; display: block; transform: scaleX(-1); border-radius: 25px; }
+        .overlay-teks { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 120px; font-weight: bold; color: white; text-shadow: 0 4px 25px rgba(0,0,0,0.9); z-index: 10; display: none; }
+        .flash { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 20; opacity: 0; pointer-events: none; }
+
+        .btn-mulai { margin-top: 40px; background: linear-gradient(145deg, #066b6b, #044f4f); color: white; font-size: 22px; padding: 18px 50px; border: 2px solid rgba(255,255,255,0.2); border-radius: 40px; cursor: pointer; font-weight: bold; box-shadow: 0 8px 25px rgba(0,0,0,0.5); transition: all 0.3s ease; }
+        .btn-mulai:hover { transform: scale(1.05); box-shadow: 0 12px 30px rgba(0,255,204,0.4); }
+
+        .hasil-container { display: none; flex-direction: column; align-items: center; margin-top: 20px; }
+        canvas { max-width: 90%; border: 6px solid white; border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); background: white; }
+        
+        .action-buttons { display: flex; gap: 15px; margin-top: 25px; flex-wrap: wrap; justify-content: center; }
+        .btn-action { font-size: 16px; padding: 12px 25px; border-radius: 30px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        .btn-action:hover { transform: scale(1.05); }
+        .btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .btn-primary { background: white; color: #044f4f; border: none; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        .btn-secondary { background: rgba(0,0,0,0.4); color: white; border: 2px solid white; backdrop-filter: blur(5px); }
+        .btn-email { background: linear-gradient(145deg, #00b3b3, #008080); color: white; border: none; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+
+        .email-form { display: none; margin-top: 20px; background: rgba(0,0,0,0.6); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); align-items: center; gap: 10px; }
+        .email-form input { padding: 12px 20px; border-radius: 25px; border: none; width: 250px; font-size: 16px; outline: none; color: #111; }
+        .email-form button { background: #00ffcc; color: #044f4f; font-weight: bold; border: none; border-radius: 25px; padding: 12px 25px; cursor: pointer; font-size: 16px; transition: 0.2s; }
+        .email-form button:hover { background: white; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-wrapper">
+        <div class="circle circle--top-right-large"></div>
+        <div class="circle circle--top-right-small"></div>
+        <div class="circle circle--left-small"></div>
+        <div class="circle circle--left-tiny"></div>
+        <div class="circle circle--bottom-right-large"></div>
+        <div class="circle circle--bottom-right-small"></div>
+    </div>
+
+    <main class="main-content">
+        <div class="header">
+            <h2 class="title-premium">SISI PHOTOBOOTH</h2>
+            <div class="subtitle">Capture Your Best Moment</div>
+        </div>
+
+        <div class="kamera-container" id="kamera-box">
+            <video id="videoElement" autoplay playsinline></video>
+            <div class="overlay-teks" id="timerTeks">3</div>
+            <div class="flash" id="flashEfek"></div>
+        </div>
+
+        <button class="btn-mulai" id="btnMulai">Mulai Foto (2x)</button>
+
+        <div class="hasil-container" id="hasil-box">
+            <h3 style="text-shadow: 0 2px 5px rgba(0,0,0,0.5);">Hasil Jepretan Anda</h3>
+            
+            <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 15px;">
+                <button class="btn-action btn-primary" id="btnFrame1">🖼️ Frame 1</button>
+                <button class="btn-action btn-secondary" id="btnFrame2">🖼️ Frame 2</button>
+            </div>
+
+            <canvas id="canvasHasil"></canvas>
+            
+            <div class="action-buttons">
+                <button class="btn-action btn-secondary" id="btnUlang">🔄 Ulangi</button>
+                <button class="btn-action btn-email" id="btnTampilEmail">📧 Kirim Email</button>
+                <button class="btn-action btn-primary" id="btnDownload">💾 Simpan Lokal</button>
+            </div>
+
+            <div class="email-form" id="emailBox">
+                <input type="email" id="inputEmail" placeholder="Ketik email pengunjung...">
+                <button id="btnKirimEmail">Kirim 🚀</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const video = document.getElementById('videoElement');
+        const btnMulai = document.getElementById('btnMulai');
+        const timerTeks = document.getElementById('timerTeks');
+        const flashEfek = document.getElementById('flashEfek');
+        const kameraBox = document.getElementById('kamera-box');
+        const hasilBox = document.getElementById('hasil-box');
+        const canvas = document.getElementById('canvasHasil');
+        const ctx = canvas.getContext('2d');
+
+        let fotoTersimpan = [];
+        const jumlahJepretan = 2; 
+        const lebarFoto = 640;
+        const tinggiFoto = 480;
+
+        navigator.mediaDevices.getUserMedia({ video: { width: lebarFoto, height: tinggiFoto } })
+            .then(stream => { video.srcObject = stream; })
+            .catch(err => { alert("Gagal mengakses kamera: " + err); });
+
+        function kilatKamera() {
+            flashEfek.style.opacity = '1';
+            setTimeout(() => { flashEfek.style.opacity = '0'; }, 150);
+        }
+
+        function jalankanTimer(detik) {
+            return new Promise(resolve => {
+                timerTeks.style.display = 'block';
+                let sisaWaktu = detik;
+                timerTeks.innerText = sisaWaktu;
+                const interval = setInterval(() => {
+                    sisaWaktu--;
+                    if (sisaWaktu > 0) { timerTeks.innerText = sisaWaktu; } 
+                    else { clearInterval(interval); timerTeks.style.display = 'none'; resolve(); }
+                }, 1000);
+            });
+        }
+
+        function ambilFoto() {
+            kilatKamera();
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = lebarFoto;
+            tempCanvas.height = tinggiFoto;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.translate(lebarFoto, 0);
+            tempCtx.scale(-1, 1);
+            tempCtx.drawImage(video, 0, 0, lebarFoto, tinggiFoto);
+            fotoTersimpan.push(tempCanvas);
+        }
+
+        btnMulai.addEventListener('click', async () => {
+            btnMulai.style.display = 'none';
+            fotoTersimpan = []; 
+            for (let i = 0; i < jumlahJepretan; i++) {
+                await jalankanTimer(3); 
+                ambilFoto(); 
+                if (i < jumlahJepretan - 1) { await new Promise(r => setTimeout(r, 1000)); }
+            }
+            renderHasilAkhir();
+        });
+
+        // --- FITUR PILIH FRAME DINAMIS ---
+        function terapkanFrame(urlFrame) {
+            canvas.width = lebarFoto;       // 640
+            canvas.height = tinggiFoto * 2; // 960
+            
+            // 1. PENGATURAN POSISI & UKURAN FOTO 
+            const geserKanan = 45;       
+            const lebarFotoBaru = 550;   
+            const tinggiFotoBaru = 360;  
+            const posisiY_Foto1 = 110;   
+            const posisiY_Foto2 = 495;   
+
+            // Beri warna dasar putih
+            ctx.fillStyle = "#ffffff"; 
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 2. Gambar 2 foto pengunjung 
+            if (fotoTersimpan.length === 2) {
+                ctx.drawImage(fotoTersimpan[0], geserKanan, posisiY_Foto1, lebarFotoBaru, tinggiFotoBaru);
+                ctx.drawImage(fotoTersimpan[1], geserKanan, posisiY_Foto2, lebarFotoBaru, tinggiFotoBaru);
+            }
+
+            // 3. Fetch gambar frame sesuai pilihan pengunjung
+            fetch(urlFrame)
+                .then(response => response.blob())
+                .then(blob => {
+                    const objectURL = URL.createObjectURL(blob);
+                    const gambarFrameSisi = new Image();
+                    
+                    gambarFrameSisi.onload = function() {
+                        // Tempel frame di atas foto
+                        ctx.drawImage(gambarFrameSisi, 0, 0, canvas.width, canvas.height);
+                        kameraBox.style.display = 'none';
+                        hasilBox.style.display = 'flex';
+                        URL.revokeObjectURL(objectURL); 
+                    };
+                    
+                    gambarFrameSisi.src = objectURL;
+                })
+                .catch(error => {
+                    console.error("Error muat bingkai:", error);
+                    alert("Bingkai tidak ditemukan! Pastikan nama file frame1.png dan frame2.png sudah benar di dalam folder assets/img.");
+                    kameraBox.style.display = 'none';
+                    hasilBox.style.display = 'flex';
+                });
+        }
+
+        function renderHasilAkhir() {
+            // Default pakai frame 1 saat foto baru selesai dijepret (path diupdate)
+            terapkanFrame('/static/assets/img/frame1.png');
+            
+            // Ubah gaya tombol untuk menandakan Frame 1 sedang aktif
+            document.getElementById('btnFrame1').className = "btn-action btn-primary";
+            document.getElementById('btnFrame2').className = "btn-action btn-secondary";
+        }
+
+        // --- DETEKSI KLIK TOMBOL FRAME ---
+        document.getElementById('btnFrame1').addEventListener('click', () => {
+            // Path diupdate
+            terapkanFrame('/static/assets/img/frame1.png');
+            document.getElementById('btnFrame1').className = "btn-action btn-primary";
+            document.getElementById('btnFrame2').className = "btn-action btn-secondary";
+        });
+
+        document.getElementById('btnFrame2').addEventListener('click', () => {
+            // Path diupdate
+            terapkanFrame('/static/assets/img/frame2.png');
+            document.getElementById('btnFrame2').className = "btn-action btn-primary";
+            document.getElementById('btnFrame1').className = "btn-action btn-secondary";
+        });
+
+        // --- PERBAIKAN TOMBOL SIMPAN LOKAL SAAT DIKLIK ULANGI ---
+        document.getElementById('btnUlang').addEventListener('click', () => {
+            hasilBox.style.display = 'none';
+            document.getElementById('emailBox').style.display = 'none'; 
+            kameraBox.style.display = 'block';
+            btnMulai.style.display = 'block';
+
+            // Reset tombol Simpan Lokal
+            const btnDownload = document.getElementById('btnDownload');
+            btnDownload.innerText = "💾 Simpan Lokal";
+            btnDownload.disabled = false;
+        });
+
+        document.getElementById('btnTampilEmail').addEventListener('click', () => {
+            const emailBox = document.getElementById('emailBox');
+            emailBox.style.display = (emailBox.style.display === 'none' || emailBox.style.display === '') ? 'flex' : 'none';
+        });
+
+        document.getElementById('btnKirimEmail').addEventListener('click', async () => {
+            const emailInput = document.getElementById('inputEmail').value;
+            if (!emailInput) { alert("Tolong ketik alamat email pengunjung dulu ya!"); return; }
+
+            const btnKirim = document.getElementById('btnKirimEmail');
+            btnKirim.innerText = "⏳ Memproses...";
+            btnKirim.disabled = true;
+
+            try {
+                const base64Data = canvas.toDataURL('image/jpeg', 0.9);
+                const response = await fetch('http://localhost:8000/api/kirim_email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image_base64: base64Data, email_penerima: emailInput })
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert("Yeay! Foto berhasil dikirim ke " + emailInput);
+                    document.getElementById('emailBox').style.display = 'none';
+                    document.getElementById('inputEmail').value = '';
+                } else {
+                    alert("Gagal kirim email dari Python: " + result.message);
+                }
+            } catch (error) {
+                alert("Gagal terhubung ke mesin SISI atau foto tidak bisa diproses.");
+                console.error(error);
+            }
+            btnKirim.innerText = "Kirim 🚀";
+            btnKirim.disabled = false;
+        });
+
+        // SIMPAN LOKAL (Aman dari Blokir)
+        document.getElementById('btnDownload').addEventListener('click', async () => {
+            const btn = document.getElementById('btnDownload');
+            try {
+                btn.innerText = "⏳ Menyimpan...";
+                btn.disabled = true;
+                
+                const base64Data = canvas.toDataURL('image/jpeg', 0.9);
+                const response = await fetch('http://localhost:8000/api/save_photo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image_base64: base64Data })
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert("Foto berhasil diamankan di folder Pictures.");
+                    btn.innerText = "✅ Tersimpan";
+                } else {
+                    alert("Gagal menyimpan foto: " + result.message);
+                    btn.innerText = "💾 Simpan Lokal";
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                alert("Gagal terhubung ke server mesin SISI atau memproses gambar.");
+                console.error(error);
+                btn.innerText = "💾 Simpan Lokal";
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
